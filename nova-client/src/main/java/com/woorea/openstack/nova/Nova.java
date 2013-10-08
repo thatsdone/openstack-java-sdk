@@ -16,6 +16,7 @@ import com.woorea.openstack.nova.api.extensions.SnapshotsExtension;
 import com.woorea.openstack.nova.api.extensions.VolumesExtension;
 import com.woorea.openstack.nova.api.extensions.HostsExtension;
 import com.woorea.openstack.nova.api.extensions.HypervisorsExtension;
+import com.woorea.openstack.nova.api.extensions.ServicesExtension;
 
 public class Nova extends OpenStackClient {
 	
@@ -45,6 +46,8 @@ public class Nova extends OpenStackClient {
 
 	private final HypervisorsExtension HYPERVISORS;
 
+	private final ServicesExtension SERVICES;
+
 	public Nova(String endpoint, OpenStackClientConnector connector) {
 		super(endpoint, connector);
 		EXTENSIONS = new ExtensionsResource(this);
@@ -60,6 +63,7 @@ public class Nova extends OpenStackClient {
 		QUOTA_SETS = new QuotaSetsResource(this);
 		HOSTS = new HostsExtension(this);
 		HYPERVISORS = new HypervisorsExtension(this);
+		SERVICES = new ServicesExtension(this);
 	}
 	
 	public Nova(String endpoint) {
@@ -116,6 +120,10 @@ public class Nova extends OpenStackClient {
 
 	public HypervisorsExtension hypervisors() {
 		return HYPERVISORS;
+	}
+
+	public ServicesExtension services() {
+		return SERVICES;
 	}
 
 }
