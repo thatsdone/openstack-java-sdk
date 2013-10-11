@@ -3,6 +3,8 @@ package com.woorea.openstack.connector;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
+import java.io.PrintStream;
 
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.ext.ContextResolver;
@@ -116,5 +118,12 @@ public class RESTEasyConnector implements OpenStackClientConnector {
 		throw new OpenStackResponseException(response.getResponseStatus()
 				.getReasonPhrase(), response.getStatus());
 	}
+	@Override
+	public void setLogger(Logger output) {
+	} 
+
+	@Override
+	public void setLogger(PrintStream output) {
+	} 
 
 }

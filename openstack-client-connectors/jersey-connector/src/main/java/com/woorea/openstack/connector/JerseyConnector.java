@@ -28,6 +28,8 @@ import com.woorea.openstack.base.client.OpenStackRequest;
 import com.woorea.openstack.base.client.OpenStackResponse;
 import com.woorea.openstack.base.client.OpenStackResponseException;
 
+import java.io.PrintStream;
+
 public class JerseyConnector implements OpenStackClientConnector {
 	
 	protected Client client = null;
@@ -40,6 +42,16 @@ public class JerseyConnector implements OpenStackClientConnector {
 		clientConfig.getClasses().add(OpenStackObjectMapper.class);
 		client = Client.create(clientConfig);
 	}
+
+	@Override
+	public void setLogger(Logger output) {
+		logger = new JerseyLoggingFilter(output);
+	} 
+
+	@Override
+	public void setLogger(PrintStream output) {
+		logger = new JerseyLoggingFilter(output);
+	} 
 
 	@Override
 	public <T> OpenStackResponse request(OpenStackRequest<T> request) {

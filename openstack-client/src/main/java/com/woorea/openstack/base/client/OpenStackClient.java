@@ -3,6 +3,9 @@ package com.woorea.openstack.base.client;
 import java.util.Properties;
 import java.util.ServiceLoader;
 
+import java.io.PrintStream;
+import java.util.logging.Logger;
+
 public class OpenStackClient {
 	
 	protected String endpoint;
@@ -25,6 +28,14 @@ public class OpenStackClient {
 			DEFAULT_CONNECTOR = clientConnector;
 			break;
 		}
+	}
+
+	public void setLogger(Logger output) {
+		this.connector.setLogger(output);
+	}
+
+	public void setLogger(PrintStream output) {
+		this.connector.setLogger(output);
 	}
 
 	public OpenStackClient(String endpoint) {

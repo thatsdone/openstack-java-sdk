@@ -3,6 +3,7 @@ package com.woorea.openstack.connector;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.io.PrintStream;
 
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
@@ -60,4 +61,13 @@ public class JaxRs20Connector implements OpenStackClientConnector {
 					.getStatusInfo().toString(), e.getResponse().getStatus());
 		}
 	}
+	@Override
+	public void setLogger(Logger output) {
+		logger = new Jersey2LoggingFilter();
+	} 
+
+	@Override
+	public void setLogger(PrintStream output) {
+		logger = new Jersey2LoggingFilter();
+	} 
 }
