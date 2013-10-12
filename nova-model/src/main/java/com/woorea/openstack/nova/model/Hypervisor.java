@@ -1,13 +1,15 @@
 package com.woorea.openstack.nova.model;
 
 import java.io.Serializable;
-//import java.util.List;
-//import java.util.Map;
-//import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
+import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonRootName;
+import org.codehaus.jackson.map.ObjectMapper;
 
 @JsonRootName("hypervisor")
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -26,6 +28,54 @@ public class Hypervisor implements Serializable {
 
 		public String getHost() {
 			return host;
+		}
+
+		@Override
+		public String toString() {
+			return "Service [id=" + id + ", host=" + host + "]";
+		}
+	}
+
+	@JsonRootName("cpu_info")
+	public static class CpuInfo {
+
+		private String vendor;
+
+		private String arch;
+
+		private String model;
+
+		private List<String> features;
+
+		private Map<String, Integer> topology = new HashMap<String, Integer>();
+
+		public String getVendor() {
+			return vendor;
+		}
+
+		public String getArch() {
+			return arch;
+		}
+
+		public String getModel() {
+			return model;
+		}
+
+		public List<String> getFeatures() {
+			return features;
+		}
+
+		public Map<String, Integer> getTopology() {
+			return topology;
+		}
+
+		@Override
+		public String toString() {
+			return "CpuInfo [vendor=" + vendor +
+				", arch=" + arch +
+				", model =" + model +
+				", features=" + features +
+				", topology=" + topology + "]";
 		}
 	}
 
@@ -71,9 +121,12 @@ public class Hypervisor implements Serializable {
 	@JsonProperty("running_vms")
 	private Integer runningVms;
 
-	//FIXME(thatsdone): Better to add a sub class like the case of 'service'
+	//FIXME(thatsdone):
+	// Better to use CpuInfo class instead of String.
+	// Note that nova gives us a double-quoted JSON for cpu_info.
 	@JsonProperty("cpu_info")
 	private String cpuInfo;
+	//private CpuInfo cpuInfo;
 
 	@JsonProperty("disk_available_least")
 	private Integer diskAvailableLeast;
@@ -186,9 +239,20 @@ public class Hypervisor implements Serializable {
 	/**
 	 * @return the cpu_info
 	 */
-	//FIXME(thatsdone): change the type
-	public String getCpuInfo() {
-		return cpuInfo;
+	public CpuInfo getCpuInfo() {
+		/*
+		 * FIXME(thatsdone): cpuInfo is a String because nova gives us
+		 * a double-quoted JSON. Here we need to return a JSON, thus
+		 * deserialize cpuInfo here explicitly as a workaround.
+		 */
+		//return cpuInfo;
+		try {
+			return  new ObjectMapper().readValue(cpuInfo, CpuInfo.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// FIXME(thatsone): On deserializiation error, return null.
+			return null;
+		}
 	}
 
 	/*
@@ -221,7 +285,4 @@ public class Hypervisor implements Serializable {
 			", cpu_info=" + cpuInfo +
 			", disk_available_least=" + diskAvailableLeast + "]";
 	}
-
 }
-
-
