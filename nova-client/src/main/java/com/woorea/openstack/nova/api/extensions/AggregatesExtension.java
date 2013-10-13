@@ -54,10 +54,8 @@ public class AggregatesExtension {
 	public class ShowAggregate extends OpenStackRequest<HostAggregate> {
 
 		public ShowAggregate(String id) {
-			method(HttpMethod.GET);
-			path("/os-aggregates/").path(id);
-			header("Accept", "application/json");
-			returnType(HostAggregate.class);
+			super(CLIENT, HttpMethod.GET,
+				  new StringBuffer("/os-aggregates/").append(id), null, HostAggregate.class);
 		}
 
 	}
