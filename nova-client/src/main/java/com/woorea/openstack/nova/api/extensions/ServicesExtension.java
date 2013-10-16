@@ -5,8 +5,8 @@ import com.woorea.openstack.base.client.HttpMethod;
 import com.woorea.openstack.base.client.OpenStackClient;
 import com.woorea.openstack.base.client.OpenStackRequest;
 import com.woorea.openstack.nova.model.Service;
+import com.woorea.openstack.nova.model.Service.ServiceIdentifier;
 import com.woorea.openstack.nova.model.Services;
-import com.woorea.openstack.nova.model.ServiceAction.ServiceUpdateReq;
 
 public class ServicesExtension {
 	
@@ -28,22 +28,28 @@ public class ServicesExtension {
 
 	}
 
-	public EnableService enableService(ServiceUpdateReq req) {
+	public EnableService enableService(String host, String binary) {
+		ServiceIdentifier req = new ServiceIdentifier();
+		req.setHost(host);
+		req.setBinary(binary);
 		return new EnableService(req);
 	}
 
 	public class EnableService extends OpenStackRequest<Service> {
-		public EnableService(ServiceUpdateReq req) {
+		public EnableService(ServiceIdentifier req) {
 			super(CLIENT, HttpMethod.PUT, "/os-services/enable", Entity.json(req), Service.class);
 		}
 	}
 
-	public DisableService disableService(ServiceUpdateReq req) {
+	public DisableService disableService(String host, String binary) {
+		ServiceIdentifier req = new ServiceIdentifier();
+		req.setHost(host);
+		req.setBinary(binary);
 		return new DisableService(req);
 	}
 
 	public class DisableService extends OpenStackRequest<Service> {
-		public DisableService(ServiceUpdateReq req) {
+		public DisableService(ServiceIdentifier req) {
 			super(CLIENT, HttpMethod.PUT, "/os-services/disable" , Entity.json(req), Service.class);
 		}
 	}

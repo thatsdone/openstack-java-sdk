@@ -8,6 +8,31 @@ import org.codehaus.jackson.map.annotate.JsonRootName;
 @JsonRootName("service")
 public class Service implements Serializable {
 
+	public static final class ServiceIdentifier implements Serializable {
+
+		@JsonProperty("host")
+		private String host;
+		@JsonProperty("binary")
+		private String binary;
+
+		/**
+		 * set the host
+		 */
+		public void setHost(String host) {
+			this.host = host;
+		}
+		/**	
+		 * set the binary
+		 */
+		public void setBinary(String binary) {
+			this.binary = binary;
+		}
+		@Override
+		public String toString() {
+			return "ServiceIdentifier [host=" + host + ", binary=" + binary + "]";
+		}
+	}
+
 	private String host;
 	
 	@JsonProperty("updated_at")
