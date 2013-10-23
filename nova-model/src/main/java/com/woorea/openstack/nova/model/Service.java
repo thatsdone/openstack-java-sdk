@@ -61,7 +61,7 @@ public class Service implements Serializable {
 	}
 
 	/**
-	 * @return the stete
+	 * @return the state
 	 */
 	public String getState() {
 		return state;
