@@ -606,5 +606,61 @@ public interface ServerAction extends Serializable {
 		}
 		
 	}
+
+	@JsonRootName("os-migrateLive")
+	public static final class MigrateLive implements ServerAction {
+		
+		private String host;
+		@JsonProperty("block_migration")
+		private boolean blockMigration;
+		@JsonProperty("disk_over_commit")
+		private boolean diskOverCommit;
+
+		public MigrateLive() {
+		}
+
+		/**
+		 * @return the host
+		 */
+		public String getHost() {
+			return host;
+		}
+
+		/**
+		 * @param host the target hypervisor host name
+		 */
+		public void setHost(String host) {
+			this.host = host;
+		}
 	
+		/**
+		 * @return the blockMigration
+		 */
+		public boolean getBlockMigration() {
+			return blockMigration;
+		}
+
+		/**
+		 * @param blockMigration use block migration if true
+		 */
+		public void setBlockMigration(boolean blockMigration) {
+			this.blockMigration = blockMigration;
+		}
+
+		/**
+		 * @return the diskOverCommit
+		 */
+		public boolean getDiskOverCommit() {
+			return diskOverCommit;
+		}
+
+		/**
+		 * @param diskOverCommit allow disk over commit if true
+		 */
+		public void setDiskOverCommit(boolean diskOverCommit) {
+			this.diskOverCommit = diskOverCommit;
+		}
+
+	}
+
 }

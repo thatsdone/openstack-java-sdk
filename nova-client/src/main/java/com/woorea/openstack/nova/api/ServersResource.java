@@ -16,6 +16,7 @@ import com.woorea.openstack.nova.model.ServerAction.CreateImage;
 import com.woorea.openstack.nova.model.ServerAction.GetConsoleOutput;
 import com.woorea.openstack.nova.model.ServerAction.GetVncConsole;
 import com.woorea.openstack.nova.model.ServerAction.Lock;
+import com.woorea.openstack.nova.model.ServerAction.MigrateLive;
 import com.woorea.openstack.nova.model.ServerAction.Pause;
 import com.woorea.openstack.nova.model.ServerAction.Reboot;
 import com.woorea.openstack.nova.model.ServerAction.Rebuild;
@@ -455,6 +456,21 @@ public class ServersResource {
 
 	public ShowVolumeAttachment showVolumeAttachment(String serverId, String volumeAttachmentId) {
 		return new ShowVolumeAttachment(serverId, volumeAttachmentId);
+	}
+
+	public class LiveMigrateServer extends OpenStackRequest<Void> {
+
+		public LiveMigrateServer(String serverId, final MigrateLive action) {
+			super(CLIENT, HttpMethod.POST, new StringBuilder("/servers/").append(serverId).append("/action"), Entity.json(action), Void.class);
+		}
+
+	}
+	public LiveMigrateServer migrateLive(String serverId, String host, boolean blockMigration, boolean diskOverCommit) {
+		MigrateLive action = new MigrateLive();
+		action.setHost(host);
+		action.setBlockMigration(blockMigration);
+		action.setDiskOverCommit(diskOverCommit);
+		return new LiveMigrateServer(serverId, action);
 	}
 
 }
