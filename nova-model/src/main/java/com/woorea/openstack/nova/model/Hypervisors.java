@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonRootName;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-//@JsonRootName("hypervisors")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Hypervisors implements Iterable<Hypervisors.SimpleHypervisor>, Serializable {
 
 	public static final class SimpleHypervisor {
@@ -26,7 +26,7 @@ public class Hypervisors implements Iterable<Hypervisors.SimpleHypervisor>, Seri
 		}
 
 		@Override
-			public String toString() {
+		public String toString() {
 			return "SimpleHypervisor [id=" + id
 				+ ", hypervisor_hostname=" + hypervisorHostname + "]";
 		}
