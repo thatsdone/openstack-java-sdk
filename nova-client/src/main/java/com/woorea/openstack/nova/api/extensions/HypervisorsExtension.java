@@ -6,6 +6,7 @@ import com.woorea.openstack.base.client.OpenStackRequest;
 import com.woorea.openstack.nova.model.Hypervisor;
 import com.woorea.openstack.nova.model.Hypervisors;
 import com.woorea.openstack.nova.model.HypervisorStatistics;
+import com.woorea.openstack.nova.model.HypervisorServers;
 
 public class HypervisorsExtension {
 
@@ -38,6 +39,20 @@ public class HypervisorsExtension {
 			super(CLIENT, HttpMethod.GET,
 				  new StringBuffer("/os-hypervisors/").append(id.toString()),
 				  null, Hypervisor.class);
+		}
+	}
+
+	public ShowServers showServers(String hostExpr) {
+		return new ShowServers(hostExpr);
+	}
+
+	public class ShowServers extends OpenStackRequest<HypervisorServers> {
+
+		public ShowServers(String hostExpr) {
+			super(CLIENT, HttpMethod.GET,
+				  new StringBuffer("/os-hypervisors/")
+				  .append(hostExpr).append("/servers"),
+				  null, HypervisorServers.class);
 		}
 	}
 
