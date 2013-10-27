@@ -26,8 +26,8 @@ public class Hypervisors implements Iterable<Hypervisors.SimpleHypervisor>, Seri
 		}
 
 		@Override
-		public String toString() {
-			return "Service [id=" + id
+			public String toString() {
+			return "SimpleHypervisor [id=" + id
 				+ ", hypervisor_hostname=" + hypervisorHostname + "]";
 		}
 	}
