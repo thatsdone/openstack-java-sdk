@@ -97,6 +97,11 @@ public class AggregatesExtension {
 		public CreateAggregate(String name, String availabilityZone) {
 			super(CLIENT, HttpMethod.POST,
 				  new StringBuffer("/os-aggregates"),
+				  availabilityZone == null ?
+				  Entity.json("{\"aggregate\": {\"name\": \"" +
+							  name +
+							  "\", \"availability_zone\": null }}")
+				  :
 				  Entity.json("{\"aggregate\": {\"name\": \"" +
 							  name +
 							  "\", \"availability_zone\": \"" +
