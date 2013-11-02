@@ -23,6 +23,8 @@ public class User implements Serializable {
 	
 	private Boolean enabled;
 
+	private String extra;
+
 	/**
 	 * @return the id
 	 */
@@ -115,6 +117,13 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * @return the extra
+	 */
+	public String getExtra() {
+		return extra;
+	}
+
+	/**
 	 * @param enabled the enabled to set
 	 */
 	public void setEnabled(Boolean enabled) {
@@ -128,7 +137,8 @@ public class User implements Serializable {
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password="
 				+ password + ", tenantId=" + tenantId + ", name=" + name
-				+ ", email=" + email + ", enabled=" + enabled + "]";
+				+ ", email=" + email + ", enabled=" + enabled
+				+ ", extra= " + extra + "]";
 	}
 	
 }
