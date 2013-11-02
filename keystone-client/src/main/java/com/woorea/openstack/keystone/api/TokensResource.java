@@ -71,4 +71,27 @@ public class TokensResource {
 
 	}
 	
+	public Validate validate(String tokenId, String adminTokenId) {
+		return new Validate(tokenId, adminTokenId, false);
+	}
+
+	public Validate validateQuick(String tokenId, String adminTokenId) {
+		return new Validate(tokenId, adminTokenId, true);
+	}
+
+	public class Validate extends OpenStackRequest<Access> {
+
+		public Validate() {
+
+		}
+		
+		public Validate(String tokenId, String adminTokenId, boolean quick) {
+			super(CLIENT,
+				  quick == false ? HttpMethod.GET : HttpMethod.HEAD,
+				  new StringBuilder("/tokens/").append(tokenId),
+				  null,
+				  quick == false ? Access.class : null);
+			header("X-Auth-Token", adminTokenId);
+		}
+	}
 }
