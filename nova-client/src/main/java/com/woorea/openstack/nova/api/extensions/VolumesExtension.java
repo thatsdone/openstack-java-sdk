@@ -22,10 +22,6 @@ public class VolumesExtension {
 		return new List(detail);
 	}
 
-	public List list(boolean detail, String path) {
-		return new List(detail, path);
-	}
-
 	public Create create(VolumeForCreate volume) {
 		return new Create(volume);
 	}
@@ -53,10 +49,6 @@ public class VolumesExtension {
 					: "/os-volumes", null, Volumes.class);
 		}
 
-		public List(boolean detail, String path) {
-			super(CLIENT, HttpMethod.GET, detail ? path + "/detail"
-					: path, null, Volumes.class);
-		}
 	}
 
 	public class Create extends OpenStackRequest<Volume> {
