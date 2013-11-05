@@ -59,6 +59,14 @@ public class ServersResource {
 	public ShowMetadata showMetadata(String id) {
 		return new ShowMetadata(id);
 	}
+	
+	public CreateOrUpdateMetadata createOrUpdateMetadata(String id,Metadata metadata) {
+		return new CreateOrUpdateMetadata(id,metadata);
+	}
+	
+	public ReplaceMetadata replaceMetadata(String id,Metadata metadata) {
+		return new ReplaceMetadata(id,metadata);
+	}
 
 
 	public Delete delete(String id) {
@@ -99,7 +107,23 @@ public class ServersResource {
 		}
 
 	}
+	
+	public class CreateOrUpdateMetadata extends OpenStackRequest<Metadata> {
 
+		public CreateOrUpdateMetadata(String id,Metadata metadata) {
+			super(CLIENT, HttpMethod.POST, new StringBuilder("/servers/").append(id).append("/metadata"), Entity.json(metadata), Metadata.class);
+		}
+
+	}
+	public class ReplaceMetadata extends OpenStackRequest<Metadata> {
+
+		public ReplaceMetadata(String id,Metadata metadata) {
+			super(CLIENT, HttpMethod.PUT, new StringBuilder("/servers/").append(id).append("/metadata"), Entity.json(metadata), Metadata.class);
+		}
+
+	}
+	
+	
 	public class Delete extends OpenStackRequest<Void> {
 
 		public Delete(String id) {
@@ -116,7 +140,7 @@ public class ServersResource {
 
 	}
 
-	public class UpdateServer extends OpenStackRequest {
+	public class UpdateServer extends OpenStackRequest<Server> {
 
 		private Server server;
 
@@ -201,7 +225,7 @@ public class ServersResource {
 
 	}
 
-	public class StartServer extends OpenStackRequest {
+	public class StartServer extends OpenStackRequest<Void> {
 
 		private Start action;
 
@@ -213,7 +237,7 @@ public class ServersResource {
 
 	}
 
-	public class StopServer extends OpenStackRequest {
+	public class StopServer extends OpenStackRequest<Void> {
 
 		private Stop action;
 
@@ -233,7 +257,7 @@ public class ServersResource {
 		return new StopServer(id);
 	}
 
-	public class GetVncConsoleServer extends OpenStackRequest {
+	public class GetVncConsoleServer extends OpenStackRequest<VncConsole> {
 
 		private GetVncConsole action;
 
@@ -250,7 +274,7 @@ public class ServersResource {
 		return new GetVncConsoleServer(id, action);
 	}
 
-	public class GetConsoleOutputServer extends OpenStackRequest {
+	public class GetConsoleOutputServer extends OpenStackRequest<ConsoleOutput> {
 
 		public GetConsoleOutputServer(String id, GetConsoleOutput action) {
 			super(CLIENT, HttpMethod.POST, new StringBuilder("/servers/").append(id).append("/action"), Entity.json(action), ConsoleOutput.class);
@@ -263,7 +287,7 @@ public class ServersResource {
 		return new GetConsoleOutputServer(id, action);
 	}
 
-	public class PauseServer extends OpenStackRequest {
+	public class PauseServer extends OpenStackRequest<Void> {
 
 		public PauseServer(String id) {
 			super(CLIENT, HttpMethod.POST, new StringBuilder("/servers/").append(id).append("/action"), Entity.json(new Pause()), Void.class);
@@ -271,7 +295,7 @@ public class ServersResource {
 
 	}
 
-	public class UnpauseServer extends OpenStackRequest {
+	public class UnpauseServer extends OpenStackRequest<Void> {
 
 		public UnpauseServer(String id) {
 			super(CLIENT, HttpMethod.POST, new StringBuilder("/servers/").append(id).append("/action"), Entity.json(new Unpause()), Void.class);
@@ -280,7 +304,7 @@ public class ServersResource {
 
 	}
 
-	public class LockServer extends OpenStackRequest {
+	public class LockServer extends OpenStackRequest<Void> {
 
 		private Lock action;
 
@@ -292,7 +316,7 @@ public class ServersResource {
 
 	}
 
-	public class UnlockServer extends OpenStackRequest {
+	public class UnlockServer extends OpenStackRequest<Void> {
 
 		private Unlock action;
 
@@ -304,7 +328,7 @@ public class ServersResource {
 
 	}
 
-	public class SuspendServer extends OpenStackRequest {
+	public class SuspendServer extends OpenStackRequest<Void> {
 
 		public SuspendServer(String id) {
 			super(CLIENT, HttpMethod.POST, new StringBuilder("/servers/").append(id).append("/action"), Entity.json(new Suspend()), Void.class);
@@ -312,7 +336,7 @@ public class ServersResource {
 
 	}
 
-	public class ResumeServer extends OpenStackRequest {
+	public class ResumeServer extends OpenStackRequest<Void> {
 
 		public ResumeServer(String id) {
 			super(CLIENT, HttpMethod.POST, new StringBuilder("/servers/").append(id).append("/action"), Entity.json(new Resume()), Void.class);
@@ -320,7 +344,7 @@ public class ServersResource {
 
 	}
 
-	public class CreateBackupServer extends OpenStackRequest {
+	public class CreateBackupServer extends OpenStackRequest<Void> {
 
 		public CreateBackupServer(String id, CreateBackup action) {
 			super(CLIENT, HttpMethod.POST, new StringBuilder("/servers/").append(id).append("/action"), Entity.json(action), Void.class);
@@ -356,7 +380,7 @@ public class ServersResource {
 		return new CreateBackupServer(serverId, action);
 	}
 
-	public class RescueServer extends OpenStackRequest {
+	public class RescueServer extends OpenStackRequest<Void> {
 
 		public RescueServer(String id, Rescue action) {
 			super(CLIENT, HttpMethod.POST, new StringBuilder("/servers/").append(id).append("/action"), Entity.json(action), Void.class);
@@ -364,7 +388,7 @@ public class ServersResource {
 
 	}
 
-	public class UnrescueServer extends OpenStackRequest {
+	public class UnrescueServer extends OpenStackRequest<Void> {
 
 		public UnrescueServer(String id) {
 			super(CLIENT, HttpMethod.POST, new StringBuilder("/servers/").append(id).append("/action"), Entity.json(new Unrescue()), Void.class);
@@ -381,7 +405,7 @@ public class ServersResource {
 		return new UnrescueServer(serverId);
 	}
 
-	public class AssociateFloatingIp extends OpenStackRequest {
+	public class AssociateFloatingIp extends OpenStackRequest<Void> {
 
 		public AssociateFloatingIp(String id, com.woorea.openstack.nova.model.ServerAction.AssociateFloatingIp action) {
 			super(CLIENT, HttpMethod.POST, new StringBuilder("/servers/").append(id).append("/action"), Entity.json(action), Void.class);
@@ -389,7 +413,7 @@ public class ServersResource {
 
 	}
 
-	public class DisassociateFloatingIp extends OpenStackRequest {
+	public class DisassociateFloatingIp extends OpenStackRequest<Void> {
 
 		public DisassociateFloatingIp(String id, com.woorea.openstack.nova.model.ServerAction.DisassociateFloatingIp action) {
 			super(CLIENT, HttpMethod.POST, new StringBuilder("/servers/").append(id).append("/action"), Entity.json(action), Void.class);
