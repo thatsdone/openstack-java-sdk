@@ -26,24 +26,6 @@ public class Stack implements Serializable {
 	@JsonProperty("stack_status_reason")
 	private String stackStatusReason;
 
-	public class Link {
-		private String rel;
-		private String href;
-
-		/**
-		 * return the rel
-		 */
-		public String getRel() {
-			return rel;
-		}
-		/**
-		 * return the href
-		 */
-		public String getHref() {
-			return href;
-		}
-	}
-
 	private List<Link> links;
 
 	private String description;
@@ -90,6 +72,13 @@ public class Stack implements Serializable {
 		return links;
 	}
 
+	/**
+	 * @return the ldescription
+	 */
+	public String getDescription() {
+		return description;
+	}
+
 	@Override
 	public String toString() {
 		return "Stack [id=" + id +
@@ -99,7 +88,7 @@ public class Stack implements Serializable {
 			", stackName=" + stackName +
 			", stack_status_reason" + stackStatusReason +
 			", links=" + links +
-			", description=" + description + "]";
+			", description=\"" + description + "\"]";
 	}
 	/*
 	@Override

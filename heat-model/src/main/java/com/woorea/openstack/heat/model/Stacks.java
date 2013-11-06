@@ -8,24 +8,23 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class Stacks implements Iterable<Stack>, Serializable {
 
-	@JsonProperty("stacks")
-	private List<Stack> list;
+	private List<Stack> stacks;
 
 	/**
 	 * @return the list
 	 */
-	public List<Stack> getList() {
-		return list;
+	public List<Stack> getStacks() {
+		return stacks;
 	}
 	
 	@Override
 	public String toString() {
-		return "Stacks [list=" + list + "]";
+		return "Stacks [stacks=" + stacks + "]";
 	}
 
 	@Override
 	public Iterator<Stack> iterator() {
-		return list.iterator();
+		return stacks.iterator();
 	}
 	
 }
