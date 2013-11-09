@@ -36,7 +36,7 @@ public class NetworksResource {
 	public class List extends OpenStackRequest<Networks> {
 
 		public List() {
-		    super(CLIENT, HttpMethod.GET, "networks", null, Networks.class);
+		    super(CLIENT, HttpMethod.GET, "v2.0/networks", null, Networks.class);
 		}
 	}
 
@@ -54,21 +54,21 @@ public class NetworksResource {
 	public class Create extends OpenStackRequest<Network> {
 
 		public Create(NetworkForCreate net){
-		    super(CLIENT, HttpMethod.POST, "networks", Entity.json(net), Network.class);
+		    super(CLIENT, HttpMethod.POST, "v2.0/networks", Entity.json(net), Network.class);
 		}
 	}
 
 	public class Show extends OpenStackRequest<Network> {
 
 		public Show(String id) {
-		    super(CLIENT, HttpMethod.GET, buildPath("networks/", id), null, Network.class);
+		    super(CLIENT, HttpMethod.GET, buildPath("v2.0/networks/", id), null, Network.class);
 		}
 	}
 
 	public class Delete extends OpenStackRequest<Void> {
 
 		public Delete(String id){
-		    super(CLIENT, HttpMethod.DELETE, buildPath("networks/", id), null, Void.class);
+		    super(CLIENT, HttpMethod.DELETE, buildPath("v2.0/networks/", id), null, Void.class);
 		}
 	}
 }
