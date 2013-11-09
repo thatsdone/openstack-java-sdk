@@ -25,43 +25,13 @@ public class Subnet implements Serializable{
 	@JsonProperty("allocation_pools")
 	private List<Pool> list;
 	@JsonProperty("host_routes")
-	private List<String> hostRoutes;
+	private List<HostRoute> hostRoutes;
 	@JsonProperty("ip_version")
-	private IpVersion ipversion;
+	private Integer ipversion;
 	@JsonProperty("gateway_ip")
 	private String gw;
 	private String cidr;
 	private String id;
-	
-	public static enum IpVersion implements Serializable {
-		IPV4(4), IPV6(6);
-		private int code;
-
-		IpVersion(int code) {
-			this.code = code;
-		}
-
-		@JsonValue
-		public int code() {
-			return code;
-		}
-
-		@JsonCreator
-		public static IpVersion valueOf(int value) {
-			for (IpVersion ipVersion : IpVersion.values()) {
-				if (ipVersion.code() == value) {
-					return ipVersion;
-				}
-			}
-			return IPV4;
-		}
-
-		@Override
-		public String toString() {
-			return String.valueOf(code);
-		}
-	}
-	
 
 	/**
 	 * @return the name
@@ -162,7 +132,7 @@ public class Subnet implements Serializable{
 	/**
 	 * @return the hostRoutes
 	 */
-	public List<String> getHostRoutes() {
+	public List<HostRoute> getHostRoutes() {
 		return hostRoutes;
 	}
 
@@ -170,7 +140,7 @@ public class Subnet implements Serializable{
 	/**
 	 * @param hostRoutes the hostRoutes to set
 	 */
-	public void setHostRoutes(List<String> hostRoutes) {
+	public void setHostRoutes(List<HostRoute> hostRoutes) {
 		this.hostRoutes = hostRoutes;
 	}
 
@@ -178,7 +148,7 @@ public class Subnet implements Serializable{
 	/**
 	 * @return the ipversion
 	 */
-	public IpVersion getIpversion() {
+	public Integer getIpversion() {
 		return ipversion;
 	}
 
@@ -186,10 +156,9 @@ public class Subnet implements Serializable{
 	/**
 	 * @param ipversion the ipversion to set
 	 */
-	public void setIpversion(IpVersion ipversion) {
+	public void setIpversion(Integer ipversion) {
 		this.ipversion = ipversion;
 	}
-
 
 	/**
 	 * @return the gw
