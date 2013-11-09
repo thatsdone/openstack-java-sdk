@@ -1,6 +1,7 @@
 package com.woorea.openstack.quantum.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonRootName;
@@ -24,6 +25,9 @@ public class PortForCreate implements Serializable {
 
     @JsonProperty("tenant_id")
     private String tenantId;
+
+    @JsonProperty("security_groups")
+    private List<String> securityGroups;
 	
 	/**
 	 * @return the adminStateUp
@@ -103,5 +107,19 @@ public class PortForCreate implements Serializable {
 
     public void setTenantId(String tenantId) {
         this.tenantId = tenantId;
+    }
+
+    /**
+     * @return the associated security group IDs
+     */
+    public List<String> getSecurityGroups() {
+        return securityGroups;
+    }
+
+    /**
+     * @param securityGroups IDs of security groups to associate to the port
+     */
+    public void setSecurityGroups(List<String> securityGroups) {
+        this.securityGroups = securityGroups;
     }
 }
