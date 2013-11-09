@@ -1,10 +1,12 @@
 package com.woorea.openstack.quantum.model;
 
+import java.io.Serializable;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonRootName;
 
 @JsonRootName("port")
-public class PortForCreate {
+public class PortForCreate implements Serializable {
 
 	@JsonProperty("admin_state_up")
 	private boolean adminStateUp;
