@@ -23,6 +23,14 @@ public class OpenStackRequest<R> {
 		this.returnType = returnType;
 		header("Accept", "application/json");
 	}
+
+	public OpenStackRequest(OpenStackClient client) {
+		this.client = client;
+	}
+
+	public OpenStackClient client() {
+		return this.client;
+	}
 	
 	private String endpoint;
 	

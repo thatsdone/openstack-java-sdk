@@ -1,8 +1,10 @@
 package com.woorea.openstack.swift.api;
 
 
+import com.woorea.openstack.base.client.HttpMethod;
 import com.woorea.openstack.base.client.OpenStackClient;
 import com.woorea.openstack.base.client.OpenStackRequest;
+import com.woorea.openstack.base.client.OpenStackRequestList;
 import com.woorea.openstack.swift.model.Container;
 
 public class ContainersResource {
@@ -33,12 +35,12 @@ public class ContainersResource {
 		return new ContainerResource(CLIENT, name);
 	}
 	
-	public class List extends OpenStackRequest<java.util.List<Container>> {
+	public class List extends OpenStackRequestList<Container> {
 
 		public List() {
-			//return target.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Container>>(){});
-		}
 
+			super(CLIENT, HttpMethod.GET, "", null, Container.class);
+		}
 	}
 
 
