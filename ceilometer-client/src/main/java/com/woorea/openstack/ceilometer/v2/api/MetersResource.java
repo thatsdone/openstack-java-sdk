@@ -1,10 +1,12 @@
 package com.woorea.openstack.ceilometer.v2.api;
 
-
+import com.woorea.openstack.base.client.HttpMethod;
 import com.woorea.openstack.base.client.OpenStackClient;
 import com.woorea.openstack.base.client.OpenStackRequest;
+import com.woorea.openstack.base.client.OpenStackRequestList;
 import com.woorea.openstack.ceilometer.QueriableCeilometerCommand;
 import com.woorea.openstack.ceilometer.v2.model.Sample;
+import com.woorea.openstack.ceilometer.v2.model.Meter;
 
 public class MetersResource {
 	
@@ -26,9 +28,9 @@ public class MetersResource {
 		return new Statistics();
 	}
 	
-	public class List extends QueriableCeilometerCommand<List, java.util.List<Sample>> {
+	public class List extends OpenStackRequestList<Meter> {
 		public List() {
-			//return query(target.path("meters")).request(MediaType.APPLICATION_JSON).get(new GenericType<List<Meter>>() {});
+			super(CLIENT, HttpMethod.GET, "/v2/meters", null, Meter.class);
 		}
 	}
 	
