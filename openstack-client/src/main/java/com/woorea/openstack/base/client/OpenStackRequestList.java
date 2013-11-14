@@ -17,6 +17,20 @@ public class OpenStackRequestList<R> {
 	/**
 	 * OpenStackRequestList() constructor
 	 * <p>
+	 * This class does 2 phase deserialization of an HTTP responase
+	 * as a workaround. Here I mean, at first it deserializes
+	 * the HTTP response into String using the executor() method
+	 * of OpenStackRequest() class. And then, it deserializes
+	 * the String above into a List of the class specified
+	 * as Generics parameter to the class.
+	 *
+	 * Suppose you want to get a list of swift containers as List<Container>,
+	 * create an OpenStackRequestList object by specifying like the following:
+	 *
+	 *    public class List extends OpenStackRequestList<Container> {...}
+	 *
+	 * then, execute() method of this class returns List<Container>.
+	 * 
 	 * Note that OpenStackRequest class is not the super class of this class.
 	 * </p>
 	 *
@@ -45,16 +59,18 @@ public class OpenStackRequestList<R> {
 	 * Issues an HTTP request and deserialize the response as specified
 	 * type R to this class. Calls execute() of OpenStackRequest class.
 	 * </p>
+	 * 
+	 * @return a list of the specified class R through Generics, List<R>.
 	 */
   	public List<R> execute() throws Exception {
 		String res = this.req.client().execute(this.req);
 		try {
-			List<R> swiftObj =
-				new ObjectMapper().readValue(res,
-								 new TypeReference<List<R>>(){});
-			return swiftObj;
+			List<R> obj = new ObjectMapper()
+				.readValue(res, new TypeReference<List<R>>(){});
+			return obj;
 
 		} catch (Exception e) {
+			//FIXME(thatsdone): Better to output as log messages.
 			e.printStackTrace();
 			throw e;
 		}
@@ -65,6 +81,8 @@ public class OpenStackRequestList<R> {
 	 * <p>
 	 * Add a query parameter to the request path.
 	 * </p>
+	 *
+	 * @return OpernStackRequestList<R>
 	 */
 	public OpenStackRequestList<R> queryParam(String key, Object value) {
 		this.req.queryParam(key, value);
