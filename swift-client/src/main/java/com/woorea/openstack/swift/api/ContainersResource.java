@@ -5,6 +5,7 @@ import com.woorea.openstack.base.client.HttpMethod;
 import com.woorea.openstack.base.client.OpenStackClient;
 import com.woorea.openstack.base.client.OpenStackRequest;
 import com.woorea.openstack.base.client.OpenStackRequestList;
+import com.woorea.openstack.base.client.OpenStackRequestOps;
 import com.woorea.openstack.swift.model.Container;
 
 public class ContainersResource {
@@ -51,13 +52,12 @@ public class ContainersResource {
 		}
 
 	}
-	
-	public class Show extends OpenStackRequest<Container> {
-
-		private String containerName;
-		
+	public class Show extends OpenStackRequestOps<Void> {
+		// HEAD /v1/{account}/{container}
 		public Show(String containerName) {
-//			return target.path(containerName).request(MediaType.APPLICATION_JSON).head();
+			super(CLIENT, HttpMethod.HEAD,
+				  new StringBuffer("/").append(containerName),
+				  null, Void.class);
 		}
 
 	}

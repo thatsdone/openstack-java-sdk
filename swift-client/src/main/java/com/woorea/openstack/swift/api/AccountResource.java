@@ -1,7 +1,9 @@
 package com.woorea.openstack.swift.api;
 
+import com.woorea.openstack.base.client.HttpMethod;
 import com.woorea.openstack.base.client.OpenStackClient;
 import com.woorea.openstack.base.client.OpenStackRequest;
+import com.woorea.openstack.base.client.OpenStackRequestOps;
 
 public class AccountResource {
 	
@@ -11,10 +13,15 @@ public class AccountResource {
 		CLIENT = client;
 	}
 
-	public class ShowAccount extends OpenStackRequest<Void> {
+	public ShowAccount showAccount() {
+		return new ShowAccount();
+
+	}
+
+	public class ShowAccount extends OpenStackRequestOps<Void> {
 
 		public ShowAccount() {
-//			return target.request(MediaType.APPLICATION_JSON).head();
+			super(CLIENT, HttpMethod.HEAD, "", null, Void.class);
 		}
 
 	}

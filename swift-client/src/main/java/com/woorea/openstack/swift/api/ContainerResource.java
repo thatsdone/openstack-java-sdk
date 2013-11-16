@@ -3,11 +3,15 @@ package com.woorea.openstack.swift.api;
 import java.util.Map;
 
 
+import com.woorea.openstack.base.client.HttpMethod;
 import com.woorea.openstack.base.client.OpenStackClient;
 import com.woorea.openstack.base.client.OpenStackRequest;
+import com.woorea.openstack.base.client.OpenStackRequestList;
+import com.woorea.openstack.base.client.OpenStackRequestOps;
 import com.woorea.openstack.base.client.OpenStackResponse;
 import com.woorea.openstack.swift.model.ObjectDownload;
 import com.woorea.openstack.swift.model.ObjectForUpload;
+import com.woorea.openstack.swift.model.Object;
 
 public class ContainerResource {
 	
@@ -44,15 +48,23 @@ public class ContainerResource {
 		return new Delete(container, path);
 	}
 	
-	public class List extends OpenStackRequest<java.util.List<Object>> {
+	public class List extends OpenStackRequestList<com.woorea.openstack.swift.model.Object> {
 
 		private String containerName;
 		
 		private Map<String, String> filters;
 		
 		public List(String containerName, Map<String, String> filters) {
-			this.containerName = containerName;
-			this.filters = filters;
+
+			super(CLIENT,
+				  HttpMethod.GET,
+				  new StringBuffer("/").append(containerName),
+				  null,
+				  com.woorea.openstack.swift.model.Object.class);
+
+			//this.containerName = containerName;
+			//			this.filters = filters;
+
 			//returnType(new TypeToken<List<Object>>(){});
 //			target = target.path(containerName);
 //			for(String filter : new String[]{"prefix","delimiter","path","marker"}) {
@@ -79,16 +91,19 @@ public class ContainerResource {
 		
 	}
 	
-	public class Show extends OpenStackRequest<Object> {
+	public class Show extends OpenStackRequestOps<Void> {
 
 		private String containerName;
 		
 		private String objectName;
 		
+
+		// HEAD /v1/{account}/{container}/{object}
 		public Show(String containerName, String objectName) {
-			this.containerName = containerName;
-			this.objectName = objectName;
-//			return target.path(containerName).path(objectName).request(MediaType.APPLICATION_JSON).head();
+			super(CLIENT, HttpMethod.HEAD,
+				  new StringBuffer("/")
+				  .append(containerName).append("/").append(objectName),
+				  null, Void.class);
 		}
 
 	}
