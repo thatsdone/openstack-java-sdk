@@ -38,21 +38,25 @@ public class ContainersResource {
 	
 	public class List extends OpenStackRequestList<Container> {
 
+		// GET /v1/{account}
 		public List() {
-
 			super(CLIENT, HttpMethod.GET, "", null, Container.class);
 		}
 	}
 
 
-	public class Create extends OpenStackRequest<Container> {
+	public class Create extends OpenStackRequestOps<Void> {
 		
+		// PUT /v1/{account}/{container}
 		public Create(String containerName) {
-			//return target.path(containerName).request().method("PUT",Entity.text("*"));
+			super(CLIENT, HttpMethod.PUT,
+				  new StringBuffer("/").append(containerName),
+				  null, Void.class);
 		}
 
 	}
 	public class Show extends OpenStackRequestOps<Void> {
+
 		// HEAD /v1/{account}/{container}
 		public Show(String containerName) {
 			super(CLIENT, HttpMethod.HEAD,
@@ -62,13 +66,13 @@ public class ContainersResource {
 
 	}
 	
-	public class Delete extends OpenStackRequest<Void> {
+	public class Delete extends OpenStackRequestOps<Void> {
 
-		private String containerName;
-		
+		// DELETE /v1/{account}/{container}		
 		public Delete(String containerName) {
-			this.containerName = containerName;
-			//return target.path(containerName).request(MediaType.APPLICATION_JSON).delete();
+			super(CLIENT, HttpMethod.DELETE,
+				  new StringBuffer("/").append(containerName),
+				  null, Void.class);
 		}
 
 	}

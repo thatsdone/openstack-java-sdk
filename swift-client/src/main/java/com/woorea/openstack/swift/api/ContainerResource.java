@@ -3,6 +3,7 @@ package com.woorea.openstack.swift.api;
 import java.util.Map;
 
 
+import com.woorea.openstack.base.client.Entity;
 import com.woorea.openstack.base.client.HttpMethod;
 import com.woorea.openstack.base.client.OpenStackClient;
 import com.woorea.openstack.base.client.OpenStackRequest;
@@ -50,10 +51,6 @@ public class ContainerResource {
 	
 	public class List extends OpenStackRequestList<com.woorea.openstack.swift.model.Object> {
 
-		private String containerName;
-		
-		private Map<String, String> filters;
-		
 		public List(String containerName, Map<String, String> filters) {
 
 			super(CLIENT,
@@ -62,11 +59,7 @@ public class ContainerResource {
 				  null,
 				  com.woorea.openstack.swift.model.Object.class);
 
-			//this.containerName = containerName;
-			//			this.filters = filters;
-
-			//returnType(new TypeToken<List<Object>>(){});
-//			target = target.path(containerName);
+			//FIXME(thatsdone): handle 'filter'
 //			for(String filter : new String[]{"prefix","delimiter","path","marker"}) {
 //				if(filters.get(filter) != null) {
 //					target = target.queryParam(filter, filters.get(filter));
@@ -77,6 +70,7 @@ public class ContainerResource {
 		
 	}
 
+	//FIXME(thatsdone): Do we really need this?
 	public class CreateDirectory extends OpenStackRequest<Void> {
 
 		private String container;
@@ -93,11 +87,6 @@ public class ContainerResource {
 	
 	public class Show extends OpenStackRequestOps<Void> {
 
-		private String containerName;
-		
-		private String objectName;
-		
-
 		// HEAD /v1/{account}/{container}/{object}
 		public Show(String containerName, String objectName) {
 			super(CLIENT, HttpMethod.HEAD,
@@ -108,13 +97,18 @@ public class ContainerResource {
 
 	}
 	
-	public class Upload extends OpenStackRequest<OpenStackResponse> {
+	public class Upload extends OpenStackRequestOps<Void> {
 
-		private ObjectForUpload objectForUpload;
-		
+		// PUT /v1/{account}/{container}/{object}
 		public Upload(ObjectForUpload objectForUpload) {
-			this.objectForUpload = objectForUpload;
-//			Invocation.Builder invocationBuilder = target.path(objectForUpload.getContainer()).path(objectForUpload.getName()).request(MediaType.APPLICATION_JSON);
+			super(CLIENT, HttpMethod.PUT,
+				  new StringBuffer("/")
+				  .append(objectForUpload.getContainer())
+				  .append("/").append(objectForUpload.getName()),
+				  Entity.stream(objectForUpload.getInputStream()),
+				  Void.class);
+
+			//FIXME(thatsdone): handle 'properties'
 //			for(String key : objectForUpload.getProperties().keySet()) {
 //				invocationBuilder.header("x-object-meta-" + key, objectForUpload.getProperties().get(key));
 //			}
@@ -123,34 +117,34 @@ public class ContainerResource {
 
 	}
 	
-	public class Download extends OpenStackRequest<ObjectDownload> {
+	public class Download extends OpenStackRequestOps<ObjectDownload> {
 
-		private String containerName;
-		
-		private String objectName;
-		
+		// GET /v1/{account}/{container}/{object}
 		public Download(String containerName, String objectName) {
-			this.containerName = containerName;
-			this.objectName = objectName;
-//			Response response = target.path(containerName).path(objectName).request(MediaType.APPLICATION_JSON).get();
-//			ObjectDownload objectDownload = new ObjectDownload();
-//			objectDownload.setInputStream((InputStream) response.getEntity());
-//			return objectDownload;
+			super(CLIENT, HttpMethod.GET,
+				  new StringBuffer("/")
+				  .append(containerName).append("/").append(objectName),
+				  null,
+				  ObjectDownload.class);
+		}
+
+		@Override
+		public ObjectDownload execute() {
+			OpenStackResponse response = CLIENT.request(this);
+			ObjectDownload objectDownload = new ObjectDownload();
+			objectDownload.setInputStream(response.getInputStream());
+			return objectDownload;
 		}
 
 	}
-
 	
-	public class Delete extends OpenStackRequest<Void> {
+	public class Delete extends OpenStackRequestOps<Void> {
 
-		private String containerName;
-		
-		private String objectName;
-		
 		public Delete(String containerName, String objectName) {
-			this.containerName = containerName;
-			this.objectName = objectName;
-			//return target.path(containerName).path(objectName).request(MediaType.APPLICATION_JSON).delete();
+			super(CLIENT, HttpMethod.DELETE,
+				  new StringBuffer("/").append(containerName)
+				  .append("/").append(objectName),
+				  null, Void.class);
 		}
 
 	}
