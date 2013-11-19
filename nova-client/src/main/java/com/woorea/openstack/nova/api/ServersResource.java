@@ -35,6 +35,7 @@ import com.woorea.openstack.nova.model.ServerForCreate;
 import com.woorea.openstack.nova.model.Servers;
 import com.woorea.openstack.nova.model.VolumeAttachment;
 import com.woorea.openstack.nova.model.VolumeAttachments;
+import com.woorea.openstack.nova.model.ServerMigrations;
 
 public class ServersResource {
 
@@ -495,6 +496,18 @@ public class ServersResource {
 		action.setBlockMigration(blockMigration);
 		action.setDiskOverCommit(diskOverCommit);
 		return new LiveMigrateServer(serverId, action);
+	}
+
+	public Migrations migrations() {
+		return new Migrations();
+	}
+
+	public class Migrations extends OpenStackRequest<ServerMigrations> {
+
+		public Migrations() {
+			super(CLIENT, HttpMethod.GET, new StringBuilder("/os-migrations"),
+				  null, ServerMigrations.class);
+		}
 	}
 
 }
