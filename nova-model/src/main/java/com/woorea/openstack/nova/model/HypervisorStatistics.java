@@ -115,7 +115,7 @@ public class HypervisorStatistics implements Serializable {
 	/**
 	 * @return the
 	 */
-	public Integer getCurrentWorkLoad() {
+	public Integer getCurrentWorkload() {
 		return currentWorkload;
 	}
 
