@@ -10,36 +10,44 @@ import org.codehaus.jackson.map.annotate.JsonRootName;
 @JsonRootName("volume")
 public class Volume implements Serializable {
 
-	private String id;
-	
 	private String status;
 	
-	@JsonProperty("displayName")
-	private String name;
-	
-	@JsonProperty("displayDescription")
-	private String description;
-	
-	private String availabilityZone;
-
-	private String volumeType;
-	
-	private String snapshotId;
+	@JsonProperty("display_name")
+	private String displayName;
 	
 	private List<Map<String, Object>> attachments;
+
+	@JsonProperty("availability_zone")	
+	private String availabilityZone;
+
+	private boolean bootable;
+
+	@JsonProperty("created_at")
+	private String createdAt;
+
+	@JsonProperty("os-vol-tenant-attr:tenant_id")
+	private String osVolTenantAttrTenantId;
+
+	@JsonProperty("display_description")
+	private String displayDescription;
+
+	@JsonProperty("os-vol-host-attr:host")
+	private String osVolHostAttrHost;
+
+	@JsonProperty("volume_type")
+	private String volumeType;
+	
+	@JsonProperty("snapshot_id")
+	private String snapshotId;
+
+	@JsonProperty("source_volid")
+	private String sourceVolid;
 	
 	private Map<String, String> metadata;
-	
-	private String createdAt;
-	
-	private Integer size;
 
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
+	private String id;
+
+	private Integer size;
 
 	/**
 	 * @return the status
@@ -49,17 +57,17 @@ public class Volume implements Serializable {
 	}
 
 	/**
-	 * @return the name
+	 * @return the displayName
 	 */
-	public String getName() {
-		return name;
+	public String getDisplayName() {
+		return displayName;
 	}
 
 	/**
-	 * @return the description
+	 * @return the attachments
 	 */
-	public String getDescription() {
-		return description;
+	public List<Map<String, Object>> getAttachments() {
+		return attachments;
 	}
 
 	/**
@@ -67,6 +75,41 @@ public class Volume implements Serializable {
 	 */
 	public String getAvailabilityZone() {
 		return availabilityZone;
+	}
+
+	/**
+	 * @return the bootable
+	 */
+	public boolean getBootable() {
+		return bootable;
+	}
+
+	/**
+	 * @return the createdAt
+	 */
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getOsVolTenantAttrTenantId() {
+		return osVolTenantAttrTenantId;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDisplayDescription() {
+		return displayDescription;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getOsVolHostAttrHost() {
+		return osVolHostAttrHost;
 	}
 
 	/**
@@ -84,10 +127,10 @@ public class Volume implements Serializable {
 	}
 
 	/**
-	 * @return the attachments
+	 * @return the snapshotId
 	 */
-	public List<Map<String, Object>> getAttachments() {
-		return attachments;
+	public String getSourceVolid() {
+		return sourceVolid;
 	}
 
 	/**
@@ -98,10 +141,10 @@ public class Volume implements Serializable {
 	}
 
 	/**
-	 * @return the createdAt
+	 * @return the id
 	 */
-	public String getCreatedAt() {
-		return createdAt;
+	public String getId() {
+		return id;
 	}
 
 	/**
@@ -110,7 +153,5 @@ public class Volume implements Serializable {
 	public Integer getSize() {
 		return size;
 	}
-
-	
 	
 }
