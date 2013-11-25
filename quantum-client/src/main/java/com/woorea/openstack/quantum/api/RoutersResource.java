@@ -41,6 +41,19 @@ public class RoutersResource {
 			}
 		}
 
+		public ListOnL3Agent listOnL3Agent(String agentId) {
+			return new ListOnL3Agent(agentId);
+		}
+
+		public class ListOnL3Agent extends OpenStackRequest<Routers> {
+
+			public ListOnL3Agent(String agentId) {
+			    super(CLIENT, HttpMethod.GET,
+					  new StringBuffer("v2.0/agents/").append(agentId)
+					  .append("/l3-routers"), null, Routers.class);
+			}
+		}
+
 		public class Query extends OpenStackRequest<Routers> {
 
 			public Query(Router router) {
