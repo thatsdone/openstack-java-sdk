@@ -21,6 +21,8 @@ public class NetworkForCreate implements Serializable{
     @JsonProperty("provider:segmentation_id")
     private Integer providerSegmentationId;
 
+    private boolean shared;
+
     @JsonProperty("tenant_id")
     private String tenantId;
 	
@@ -72,6 +74,20 @@ public class NetworkForCreate implements Serializable{
     public void setProviderSegmentationId(Integer providerSegmentationId) {
         this.providerSegmentationId = providerSegmentationId;
     }
+
+	/**
+	 * @return the shared
+	 */
+	public boolean getShared() {
+		return shared;
+	}
+
+	/**
+	 * @param shared the shared to set
+	 */
+	public void setShared(boolean shared) {
+		this.shared = shared;
+	}
 
     public String getTenantId() {
         return tenantId;
