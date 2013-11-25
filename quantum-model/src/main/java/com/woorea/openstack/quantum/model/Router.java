@@ -73,5 +73,15 @@ public class Router implements Serializable {
 		this.id = id;
 	}
 	
+	@Override
+	public String toString() {
+		return "Router [status=" + status +
+			", externalGatewayInfo=" + externalGatewayInfo +
+			", name=" + name +
+			", admin_state_up=" + admin_state_up +
+			", tenantId=" + tenantId +
+			", id=" + id +
+			", routes=" + routes + "]";
+	}
 
 }
