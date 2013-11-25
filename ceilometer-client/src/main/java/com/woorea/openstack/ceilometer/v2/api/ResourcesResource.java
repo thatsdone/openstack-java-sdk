@@ -2,9 +2,11 @@ package com.woorea.openstack.ceilometer.v2.api;
 
 import java.util.List;
 
+import com.woorea.openstack.base.client.HttpMethod;
 import com.woorea.openstack.base.client.OpenStackClient;
 import com.woorea.openstack.base.client.OpenStackRequest;
-import com.woorea.openstack.ceilometer.QueriableCeilometerCommand;
+//import com.woorea.openstack.ceilometer.QueriableCeilometerCommand;
+import com.woorea.openstack.base.client.OpenStackRequestList;
 import com.woorea.openstack.ceilometer.v2.model.Resource;
 
 public class ResourcesResource {
@@ -15,31 +17,33 @@ public class ResourcesResource {
 		CLIENT = client;
 	}
 
-	public class ResourceList extends QueriableCeilometerCommand<ResourceList, List<Resource>> {
 	
-		public ResourceList() {
-			OpenStackRequest request = new OpenStackRequest();
-			//return query(target.path("resources")).request(MediaType.APPLICATION_JSON).get(new GenericType<List<Resource>>() {});
-		}
+	public List list () {
+		return new List();
+	}
 
+	public class List extends OpenStackRequestList<Resource> {
+		public List() {
+			super(CLIENT, HttpMethod.GET, "/v2/resources", null, Resource.class);
+		}
 	}
 	
-	public class ResourceShow extends OpenStackRequest<Void> {
-
-		private String id;
-			
-		public ResourceShow id(String id) {
-			this.id = id;
-			return this;
+	public Show show (String id) {
+		if(id == null) {
+			throw new UnsupportedOperationException("resource id is mandatory");
 		}
-		
-		public ResourceShow(OpenStackClient client) {
-//			if(id == null) {
-//				throw new UnsupportedOperationException("resource id is mandatory");
-//			}
-//			return target.path("resources").path(id).request(MediaType.APPLICATION_JSON).get(Resource.class);
-		}
+		return new Show(id);
+	}
 
+
+	public class Show extends OpenStackRequest<Resource> {
+
+		public Show(String id) {
+			super(CLIENT, HttpMethod.GET,
+				  new StringBuffer("/v2/resources/").append(id),
+				  null, Resource.class);
+
+		}
 	}
 
 }
