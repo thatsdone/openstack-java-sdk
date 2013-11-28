@@ -7,7 +7,9 @@ import com.woorea.openstack.base.client.OpenStackRequest;
 import com.woorea.openstack.quantum.model.Router;
 import com.woorea.openstack.quantum.model.RouterForAddInterface;
 import com.woorea.openstack.quantum.model.RouterForCreate;
+import com.woorea.openstack.quantum.model.RouterForSetGateway;
 import com.woorea.openstack.quantum.model.RouterInterface;
+import com.woorea.openstack.quantum.model.GatewayInfo;
 import com.woorea.openstack.quantum.model.Routers;
 
 public class RoutersResource {
@@ -101,15 +103,28 @@ public class RoutersResource {
 
 		public class Detach extends OpenStackRequest<RouterInterface> {
 
-		public Detach(RouterForAddInterface interfaceToAdd) {
-			super(CLIENT, HttpMethod.PUT, buildPath("v2.0/routers/",
-					interfaceToAdd.getRouterId(), "/remove_router_interface"),
-					Entity.json(interfaceToAdd), RouterInterface.class);
+			public Detach(RouterForAddInterface interfaceToAdd) {
+				super(CLIENT,
+					  HttpMethod.PUT,
+					  buildPath("v2.0/routers/",
+								interfaceToAdd.getRouterId(),
+								"/remove_router_interface"),
+					  Entity.json(interfaceToAdd), RouterInterface.class);
+			}
 		}
 
-	}
+		public GatewaySet setGateway(String id, GatewayInfo gateway){
+			return new GatewaySet(id, gateway);
+		}
 
-	
-		
+		public class GatewaySet extends OpenStackRequest<RouterForSetGateway> {
 
+			public GatewaySet(String id, GatewayInfo gateway) {
+				super(CLIENT,
+					  HttpMethod.PUT,
+					  new StringBuffer("v2.0/routers/").append(id),
+					  Entity.json(gateway), RouterForSetGateway.class);
+			}
+
+		}
 }
